@@ -29,6 +29,12 @@ FROM Consignments C
 		LEFT JOIN Individuals I1 ON C.SupplierID = I1.IPN
 		LEFT JOIN Individuals I2 ON C.RecipientID = I2.IPN
 
+-- select all consigments with final price > 10000
+SELECT Number, SUM(FinalPrice) AS TotalPrice
+FROM AllConsigmentsCompleteInfo
+WHERE FinalPrice > 10000
+GROUP BY Number
+
 
 CREATE VIEW TotalPriceToAllConsigments (Number, Product, Price)
 AS SELECT C.Number, P.Name, P.Price		
