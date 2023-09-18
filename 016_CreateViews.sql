@@ -8,7 +8,7 @@ WHERE (PPU.UpdateDate IS NOT NULL AND PPU.UpdateDate =
 	(
 		SELECT MAX(PPU1.UpdateDate)
 		FROM ProductPriceUpdates PPU1
-		WHERE PPU.ProductID = PPU1.ProductID AND PPU1.UpdateDate <= @OrderDate
+		WHERE PPU.ProductID = PPU1.ProductID
 		) 
 	)
 OR (PPU.UpdateDate IS NULL AND NOT EXISTS
