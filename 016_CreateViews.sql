@@ -3,14 +3,21 @@ GO
 
 CREATE VIEW ActualPriceList (Price, ID, Dates)		--WITH ENCRYPTION
 AS SELECT PPU.NewPrice, PPU.ProductID, PPU.UpdateDate
-			FROM ProductPriceUpdates PPU
-			WHERE PPU.UpdateDate =  
-			(
-				SELECT MAX(PPU1.UpdateDate)
-				FROM ProductPriceUpdates PPU1
-				WHERE PPU.ProductID = PPU1.ProductID
-			)
-
+FROM ProductPriceUpdates PPU
+WHERE (PPU.UpdateDate IS NOT NULL AND PPU.UpdateDate =
+	(
+		SELECT MAX(PPU1.UpdateDate)
+		FROM ProductPriceUpdates PPU1
+		WHERE PPU.ProductID = PPU1.ProductID AND PPU1.UpdateDate <= @OrderDate
+		) 
+	)
+OR (PPU.UpdateDate IS NULL AND NOT EXISTS
+	(
+		SELECT UpdateDate
+		FROM ProductPriceUpdates PPU1
+		WHERE PPU.ProductID = PPU1.ProductID AND PPU1.UpdateDate IS NOT NULL
+	)
+)
 
 CREATE VIEW AllConsigmentsCompleteInfo (Number, Date, Supplier, Recipient, Product, UnitType, Amount, Price, FinalPrice)
 AS SELECT C.Number, C.ConsignmentDate, I1.Name + ' ' + I1.Surname, I2.Name + ' ' + I2.Surname
