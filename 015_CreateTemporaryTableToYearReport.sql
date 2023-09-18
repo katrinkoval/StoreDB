@@ -1,8 +1,8 @@
 
 DECLARE @ReportYear DATETIME = 2023;
 
-IF Object_ID (N'TempDB.dbo.##YearReport', N'U') IS NOT NULL
-SELECT * FROM ##YearReport
+IF Object_ID ('TempDB..#YearReport') IS NOT NULL
+SELECT * FROM #YearReport
 ELSE
 SELECT P.Name,
 SUM(CASE WHEN datepart(month,C.ConsignmentDate)=1 and datepart(year, C.ConsignmentDate) = @ReportYear THEN O.Amount ELSE 0 END) AS "January",
@@ -18,7 +18,7 @@ SUM(CASE WHEN datepart(month,C.ConsignmentDate)=10 and datepart(year, C.Consignm
 SUM(CASE WHEN datepart(month,C.ConsignmentDate)=11 and datepart(year, C.ConsignmentDate) = @ReportYear THEN O.Amount ELSE 0 END) AS "November",
 SUM(CASE WHEN datepart(month,C.ConsignmentDate)=12 and datepart(year, C.ConsignmentDate) = @ReportYear THEN O.Amount ELSE 0 END) AS "December",
 SUM(CASE WHEN O.Amount!= 0 THEN O.Amount ELSE 0 END) AS "Total"
-INTO ##YearReport
+INTO #YearReport
 FROM Products P
 LEFT JOIN Orders O On P.ID = O.ProductID
 LEFT JOIN Consignments C on O.ConsignmentNumber = C.Number
