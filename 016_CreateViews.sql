@@ -1,6 +1,7 @@
 USE Store
 GO
 
+
 CREATE VIEW ActualPriceList (Price, ID, Dates)		--WITH ENCRYPTION
 AS SELECT PPU.NewPrice, PPU.ProductID, PPU.UpdateDate
 FROM ProductPriceUpdates PPU
@@ -8,7 +9,7 @@ WHERE (PPU.UpdateDate IS NOT NULL AND PPU.UpdateDate =
 	(
 		SELECT MAX(PPU1.UpdateDate)
 		FROM ProductPriceUpdates PPU1
-		WHERE PPU.ProductID = PPU1.ProductID
+		WHERE PPU.ProductID = PPU1.ProductID 
 		) 
 	)
 OR (PPU.UpdateDate IS NULL AND NOT EXISTS
@@ -35,7 +36,6 @@ FROM AllConsigmentsCompleteInfo
 WHERE FinalPrice > 10000
 GROUP BY Number
 
-
 CREATE VIEW TotalPriceToAllConsigments (Number, Product, Price)
 AS SELECT C.Number, P.Name, P.Price		
 FROM Consignments C
@@ -47,3 +47,6 @@ FROM Consignments C
 		LEFT JOIN Orders O ON C.Number = O.ConsignmentNumber 
 		LEFT JOIN Products P ON O.ProductID = P.ID
 GROUP BY C.Number
+
+
+

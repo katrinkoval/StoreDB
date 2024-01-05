@@ -41,16 +41,16 @@ GO
 
 INSERT INTO [dbo].[Consignments]
            ([Number]
-           ,[Date]
+           ,[ConsignmentDate]
            ,[SupplierID]
            ,[RecipientID])
      VALUES
-           (001234, DATEADD(DAY, -5, GETDATE()), 0001, 0002),
-		   (001235, DATEADD(DAY, -4, GETDATE()), 0001, 0003),
-		   (001236, DATEADD(DAY, -3, GETDATE()), 0002, 0003),
-		   (001237, DATEADD(DAY, -2, GETDATE()), 0003, 0004),
-		   (001238, DATEADD(DAY, -1, GETDATE()), 0004, 0001),
-		   (001239, GETDATE(), 0003, 0002)
+           (1234, DATEADD(DAY, -5, GETDATE()), 0001, 0002),
+		   (1235, DATEADD(DAY, -4, GETDATE()), 0001, 0003),
+		   (1236, DATEADD(DAY, -3, GETDATE()), 0002, 0003),
+		   (1237, DATEADD(DAY, -2, GETDATE()), 0003, 0004),
+		   (1238, DATEADD(DAY, -1, GETDATE()), 0004, 0001),
+		   (1239, GETDATE(), 0003, 0002)
 
 GO
 
@@ -59,16 +59,16 @@ INSERT INTO [dbo].[Orders]
            ,[ProductID]
            ,[Amount])
      VALUES
-           (001236, 3, 10),
-		   (001237, 2, 3),
-		   (001239, 1, 5),
-		   (001239, 4, 2),
-		   (001235, 3, 7),
-		   (001236, 5, 21),
-		   (001236, 6, 3),
-		   (001235, 3, 17),
-		   (001236, 4, 2),
-		   (001238, 2, 7)
+           (1236, 3, 10),
+		   (1237, 2, 3),
+		   (1239, 1, 5),
+		   (1239, 4, 2),
+		   (1235, 3, 7),
+		   (1236, 5, 21),
+		   (1236, 6, 3),
+		   (1235, 3, 17),
+		   (1236, 4, 2),
+		   (1238, 2, 7)
 GO
 
 

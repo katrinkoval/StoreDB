@@ -24,6 +24,7 @@ FROM Orders RIGHT JOIN Products ON ProductID = ID
 SELECT ConsignmentNumber, Name
 FROM Products FULL JOIN Orders ON ProductID = ID
 
+
 SELECT C.Number, C.ConsignmentDate, I1.Name + ' ' + I1.Surname AS Supplier, I2.Name + ' ' + I2.Surname AS Recipient
 		, P.Name, U.UnitType, O.Amount, P.Price, P.Price * O.Amount AS FinalPrice 
 FROM Consignments C
@@ -42,7 +43,6 @@ FROM Consignments C
 		LEFT JOIN Units U ON P.UnitID = U.ID
 		LEFT JOIN Individuals I1 ON C.SupplierID = I1.IPN
 		LEFT JOIN Individuals I2 ON C.RecipientID = I2.IPN
-
 
 
 SELECT C.Number, P.Name, P.Price		

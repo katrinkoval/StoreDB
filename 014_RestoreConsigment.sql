@@ -30,8 +30,6 @@ GO
 --SET ANSI_NULLS OFF
 
 
-select * from ProductPriceUpdates
-
 --create local temporary table
 DECLARE @Number BIGINT = 1250;
 DECLARE @OrderDate DATETIME;
@@ -121,6 +119,3 @@ FROM Consignments C
 		LEFT JOIN Individuals I1 ON C.SupplierID = I1.IPN
 		LEFT JOIN Individuals I2 ON C.RecipientID = I2.IPN
 WHERE C.Number = @Number
-
-
-select * from Orders

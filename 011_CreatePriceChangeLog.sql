@@ -42,9 +42,12 @@ WHERE ID = 1
 
 UPDATE Products 
 SET Price = 600
-WHERE ID = 3
+WHERE ID = 1
 
 SELECT * FROM ProductPriceUpdates
+
+
+UPDATE Products SET Price = 555 WHERE ID = 2--снять блокировку со строки 1
 SELECT * FROM Products
 
 
