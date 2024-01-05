@@ -6,7 +6,8 @@ GO
 CREATE PROCEDURE RemoveOrder
 	@Number BIGINT,
 	@ProductID BIGINT,
-	@DateInterval TINYINT = 1
+	@DateInterval TINYINT = 1,
+	@ErrorStatus BIGINT OUTPUT
 AS
 BEGIN
     IF(@Number IS NULL) OR NOT EXISTS
@@ -16,7 +17,7 @@ BEGIN
 		WHERE Number = @Number
 	)
 	BEGIN
-		RETURN 1
+		SET @ErrorStatus = 1
 	END
 
 	 IF(@ProductID IS NULL) OR NOT EXISTS
@@ -26,7 +27,7 @@ BEGIN
 		WHERE ID = @ProductID
 	)
 	BEGIN
-		RETURN 3
+		SET @ErrorStatus = 3
 	END
 
 	DECLARE @RemovedConsigmentDate DATETIME
@@ -37,13 +38,13 @@ BEGIN
 
 	IF(@RemovedConsigmentDate > DATEADD(DAY, @DateInterval, GETDATE()))
 	BEGIN
-		RETURN 2
+		SET @ErrorStatus = 2
 	END
 
 	DELETE FROM Orders
 	WHERE ConsignmentNumber = @Number AND ProductID = @ProductID
 	
-	RETURN 0
+	SET @ErrorStatus = 0
 
 END
 GO

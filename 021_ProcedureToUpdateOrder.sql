@@ -6,21 +6,22 @@ CREATE PROCEDURE UpdateOrder
 	@Number BIGINT,
 	@ProductID BIGINT,
 	@ProductIDUpdated BIGINT = NULL,
-	@Amount FLOAT = NULL
+	@Amount FLOAT = NULL,
+	@ErrorCode BIGINT OUTPUT
 AS
 BEGIN
 	SET NOCOUNT ON;
 
-	IF (@Number IS NULL) 
+	IF((@Number IS NULL) OR NOT EXISTS 
+		(
+			SELECT Number
+			FROM Consignments 
+			WHERE Number = @Number
+		)) 
 	BEGIN
-		RETURN 1
+		SET @ErrorCode = 1
 	END
 	
-	IF(@ProductID IS NULL)
-	BEGIN
-		RETURN 2
-	END
-
 	IF (@ProductIDUpdated IS NOT NULL) AND NOT EXISTS 
 	(
 		SELECT ID 
@@ -28,7 +29,17 @@ BEGIN
 		WHERE ID = @ProductIDUpdated
 	) 
 	BEGIN
-		RETURN 3
+		SET @ErrorCode = 2
+	END
+
+	IF(@ProductID IS NULL)  OR NOT EXISTS 
+	(
+		SELECT ID 
+		FROM Products
+		WHERE ID = @ProductID
+	) 
+	BEGIN
+		SET @ErrorCode = 3
 	END
 
 	IF (@Amount IS NULL) 
@@ -41,6 +52,7 @@ BEGIN
 		Amount = ISNULL(@Amount, Amount)
 	WHERE ConsignmentNumber= @Number AND ProductID = @ProductID
 
+	SET @ErrorCode = 0
 END
 GO
 
